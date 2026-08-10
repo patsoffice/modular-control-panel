@@ -10,9 +10,8 @@ interconnect uses **RJ45 (Cat5e) connectors through a patch panel**. (The one ex
 solderless swaps is converting the P4 aux slot between a 4th joystick and trackball/spinner, which
 re-terminates ~1–2 jacks — see Trackball/spinner.)
 
-This is a physical/electrical build plan (not a change to the RetroFE codebase).
-
 ### Board facts that drive the design
+
 - **48 switch inputs**, each a dedicated pin, **common ground** (Ultimarc supplies per-input
   ground wiring; every switch closes between its pin and a shared GND). → only **one ground
   conductor per cable** is needed.
@@ -22,6 +21,7 @@ This is a physical/electrical build plan (not a change to the RetroFE codebase).
   ordinary Cat5e 24 AWG is far more than enough.
 
 ### Decisions locked in (from discussion)
+
 - **One control per RJ45** — low wire density per jack (easy to wire and label), rather than
   cramming many buttons onto one cable.
 - **LED rides the button's own jack** (no separate LED patch domain). A lone switch wastes an
@@ -55,7 +55,7 @@ This is a physical/electrical build plan (not a change to the RetroFE codebase).
 
 ## Architecture: fixed board side ↔ swappable control side
 
-```
+```text
  I-PAC Ultimate I/O terminals
         │  solid-core Cat5e, punched down ONCE (never touched again)
         ▼
@@ -87,8 +87,9 @@ sufficient.) All carry +5V (LED anode / servo / device power), so the whole fiel
 The Q-jack is only present in the trackball/spinner build config (see below).
 
 ### J-jack — Joystick (switches + ServoStik)  (color: BLUE)
+
 | Pin | Signal |
-|-----|--------|
+| --- | ------ |
 | 1 | Up |
 | 2 | Down |
 | 3 | Left |
@@ -103,8 +104,9 @@ The Q-jack is only present in the trackball/spinner build config (see below).
 fixed board side; the control-panel side stays a single plug.
 
 ### P-jack — RGB Pushbutton (switch + LED, ONE button)  (color: RED)  ⚠ carries +5V
+
 | Pin | Signal |
-|-----|--------|
+| --- | ------ |
 | 1 | Switch signal → I-PAC input |
 | 2 | LED +5V common anode |
 | 3 | LED R |
@@ -120,8 +122,9 @@ wiring diagram before crimping; set pin 2 accordingly. For a non-lit button, jus
 unpopulated — same jack type.)
 
 ### Q-jack — Trackball + Spinner (quadrature)  (color: GREEN, aux slot only)  ⚠ carries +5V
+
 | Pin | Signal |
-|-----|--------|
+| --- | ------ |
 | 1 | Trackball XA |
 | 2 | Trackball XB |
 | 3 | Trackball YA |
@@ -169,7 +172,7 @@ build configs (the P4 aux slot is re-terminated to switch between them):
 jacks**; the rest of the jack count is the 20 button jacks. RGB is the binding ceiling (full):
 
 | Item | RJ45 jacks | I-PAC inputs | RGB LEDs |
-|------|-----------|--------------|----------|
+| ---- | ---------- | ------------ | -------- |
 | 4× J-jack (joysticks + servo) | 4 | 16 | — |
 | P1 buttons (6) + P2 buttons (6) | 12 | 12 | 12 |
 | P3 buttons (4) + P4 buttons (4) | 8 | 8 | 8 |
@@ -182,7 +185,7 @@ jacks**; the rest of the jack count is the 20 button jacks. RGB is the binding c
 **Config B — trackball/spinner in the P4 slot.** Drops the 4th stick + P4 buttons, adds the Q-jack:
 
 | Item | RJ45 jacks | I-PAC inputs | RGB LEDs |
-|------|-----------|--------------|----------|
+| ---- | ---------- | ------------ | -------- |
 | 3× J-jack (P1/P2/P3 sticks + servo) | 3 | 12 | — |
 | P1 (6) + P2 (6) + P3 (4) buttons | 16 | 16 | 16 |
 | 1× Q-jack (trackball 4 + spinner 2) | 1 | 6 | — |
@@ -250,6 +253,7 @@ layouts are a mapping concern, not a re-wiring concern.
    trackball profile, and confirm the aux slot switches roles.
 
 ## Sources
+
 - [I-PAC Ultimate I/O (Ultimarc)](https://www.ultimarc.com/control-interfaces/i-pacs/i-pac-ultimate-i-o/)
 - [ServoStik (Ultimarc)](https://www.ultimarc.com/arcade-controls/joysticks/servostik/)
 - [I-PAC install guide — trackball/spinner use 6 of 48 inputs, top-left/right connectors](https://www.t-molding.com/media/products/ultimarc-ipac-installation.pdf)

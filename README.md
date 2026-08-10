@@ -34,8 +34,50 @@ version-controlled part. The goal is **multi-color panels** (labels, player-colo
 control zones printed in-material rather than stickered) — targeting the **Prusa Core One L**
 with **INDX** multi-material once it ships.
 
-> **Status:** the mechanical/CAD side is not modeled yet. This repo starts from the wiring
-> design; panel models, mounting interface, and print profiles come next.
+→ **CAD source: [modular_control_panel.FCStd](modular_control_panel.FCStd)** (FreeCAD) — the
+cabinet control panel housing, the interchangeable panel blanks, per-game control bodies, control
+mount test pieces, and build jigs all live in this one document.
+
+## CAD model
+
+### Orientation convention
+
+**The control panel surface lies flush with the XY plane** (Z = 0 at the panel top). This is
+deliberate: control layouts are drawn and edited as flat 2D sketches on XY, so positioning a
+joystick, a button cluster, or a trackball cutout is a plain 2D exercise — no working on a tilted
+datum plane, no compound angles in the sketch.
+
+The **cabinet housing bodies are modeled at an angle** around that flat panel, so the panel ends up
+at a comfortable playing tilt in the finished cabinet — **currently 6°**. In other words, the tilt
+lives in the housing geometry, not in the panel sketches: the model is authored flat and presents
+angled.
+
+### Parameters
+
+Driving dimensions live in a single **`Control Panel Adjustables`** VarSet (in the `Variables`
+group) rather than being hard-coded in sketches, so the design re-solves when a number changes.
+
+Dimensions are designed in **inches** (FreeCAD stores them internally as mm, so the property
+editor shows the converted value). Notable ones:
+
+| Variable | Value | Meaning |
+| -------- | ----- | ------- |
+| `ControlPanelAngle` | **6°** | Playing tilt of the panel in the cabinet |
+| `ControlPanelHousingWidth` | 24″ (609.6 mm) | Overall cabinet control panel width |
+| `ControlPanelDepth` | 9″ (228.6 mm) | Front-to-back panel depth |
+| `ControlPanelThickness` | 15/32″ (11.91 mm) | Panel stock thickness |
+| `ControlPanelHousingMaterialThickness` | 23/32″ (18.26 mm) | Plywood housing stock |
+| `ControlPanelBlank3/4/6/8/10` | 3″/4″/6″/8″/10″ (76.2 – 254 mm) | Widths of the interchangeable panel blanks — the suffix *is* the width in inches |
+| `PatchPanelWidth` / `PatchPanelHeight` | 17″ / 3.5″ (431.8 / 88.9 mm) | RJ45 patch field (ties into [docs/wiring.md](docs/wiring.md)) |
+
+The rest are control-specific mounting dimensions (Ultimarc J-Stik and U-Trak, Happ buttons,
+Williams 2-way sticks, Paradise black-top sticks) plus threaded-insert sizes. Vendor-spec
+dimensions that are natively metric (e.g. the Ultimarc parts, M4/M5 inserts) are kept in mm.
+
+### Changing the angle
+
+Edit `ControlPanelAngle` in the VarSet and recompute — the housing bodies follow. The panel
+sketches are unaffected, since they're authored flat on XY.
 
 ## Design goals
 
@@ -52,14 +94,17 @@ with **INDX** multi-material once it ships.
 ## Repository layout
 
 ```
-docs/          Build & wiring documentation
-  wiring.md    RJ45/I-PAC modular wiring build plan (start here)
+modular_control_panel.FCStd   FreeCAD source — housing, panel blanks, control bodies, jigs
+docs/                         Build & wiring documentation
+  wiring.md                   RJ45/I-PAC modular wiring build plan (start here)
+models/                       Exported printables (3MF/STL)
+  build-jigs/                 Setup & practice prints (angle calibration, heated inserts)
+  control-mount-tests/        Fit-test mounts for individual controls
 ```
 
 Planned additions:
 
 ```
-cad/           Panel models & the cabinet mounting interface (source + STL/3MF)
 print/         Slicer profiles, INDX multi-color setups, material notes
 ```
 
@@ -75,8 +120,10 @@ print/         Slicer profiles, INDX multi-color setups, material notes
 
 ## Status
 
-Early / design phase. The wiring architecture is worked out; CAD and print files are the
-next milestone.
+Design phase. The wiring architecture is worked out, and the CAD model is underway: the cabinet
+housing, the panel blank sizes, and the first per-game control bodies (Q*Bert, Joust, Toobin')
+are modeled, with control-mount fit tests printed for the Ultimarc J-Stik and U-Trak and the
+Williams 2-way stick. Slicer/print profiles are the next milestone.
 
 [inspiration]: https://www.facebook.com/groups/2370133573/posts/10166784545748574
 [ipac]: https://www.ultimarc.com/control-interfaces/i-pacs/i-pac-ultimate-i-o/
