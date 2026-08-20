@@ -18,11 +18,13 @@ Inspired by [this arcade build post][inspiration].
 
 ### 1. The electrical / wiring design
 
-A solderless, RJ45-based patch system built around an **Ultimarc I-PAC Ultimate I/O**. Each control
-(joystick, RGB button, trackball/spinner) rides its own Cat6a jack, and whole panels unplug at a
-fixed patch field mounted near the I-PAC. It supports up to **4 players / 4 joysticks** (including
-twin-stick), **ServoStik** 4-way/8-way restrictors, and an aux **trackball + spinner** slot. Seven
+A solderless, RJ45-based patch system built around **two Ultimarc I-PAC Ultimate I/O boards**. Each
+control (joystick, RGB button, pointing device) rides its own Cat6a jack, and whole panels unplug at
+a 48-port patch field. It supports **4 players / 4 joysticks** (including twin-stick), **ServoStik**
+4-way/8-way restrictors, and **two trackballs plus a spinner**, with every control RGB-lit. Seven
 admin buttons (coin, start, escape, pause, menu) are direct-wired to a fixed panel outside the seam.
+The electronics mount on the back of the control panel housing, so only power and a few USB leads
+cross to the cabinet.
 
 Full build plan: **[docs/wiring.md](docs/wiring.md)**, covering board sizing, typed jack pinouts,
 architecture, the fixed cabinet controls, and a bench-first verification checklist.
@@ -96,6 +98,7 @@ sketches are unaffected, since they're authored flat on XY.
 modular_control_panel.FCStd   FreeCAD source: housing, panel blanks, control bodies, jigs
 docs/                         Build & wiring documentation
   wiring.md                   RJ45/I-PAC modular wiring build plan (start here)
+  patch-panel-map.md          Port-by-port patch panel and I-PAC assignment sheet
 models/                       Exported printables (3MF/STL)
   build-jigs/                 Setup & practice prints (angle calibration, heated inserts)
   control-mount-tests/        Fit-test mounts for individual controls
@@ -111,9 +114,9 @@ print/         Slicer profiles, INDX multi-color setups, material notes
 
 | Part | Role |
 |------|------|
-| [Ultimarc I-PAC Ultimate I/O][ipac] | 48 switch inputs + 96 LED channels (24 RGB), the brains |
+| [Ultimarc I-PAC Ultimate I/O][ipac] x2 | 48 switch inputs + 24 RGB LEDs each; two boards give two trackball connectors |
 | [Ultimarc ServoStik][servostik] | Software-controlled 4-way/8-way joystick restrictors |
-| U-Trak trackball / SpinTrak spinner | Aux-slot pointing devices (quadrature, read as a mouse) |
+| U-Trak trackballs (x2) / spinner | Pointing devices (quadrature, one trackball per board, read as mice) |
 | Cat6a (UTP) + RJ45 keystones / patch panel | The modular interconnect (colored, typed jacks) |
 | Prusa Core One L + INDX *(planned)* | Multi-color 3D printing of the mounting panels |
 
